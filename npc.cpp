@@ -141,7 +141,7 @@ npc& npc::operator= (const npc & rhs)
  return *this;
 }
 
-std::string npc::save_info()
+picojson::value npc::save_info()
 {
  std::stringstream dump;
 // The " || " is what tells npc::load_info() that it's down reading the name

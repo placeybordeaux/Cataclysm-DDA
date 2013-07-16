@@ -94,6 +94,7 @@ namespace picojson {
     value& operator=(bool b);
     value& operator=(double n);
     value& operator=(int n);
+    value& operator=(unsigned int n);
     value& operator=(const std::string& s);
     value& operator=(const array& s);
     value& operator=(const object& s);
@@ -110,6 +111,8 @@ namespace picojson {
     std::string to_str() const;
     template <typename Iter> void serialize(Iter os) const;
     std::string serialize() const;
+    template <typename T> value from_vector(std::vector<T> from);
+    std::vector<typename T> std::vector<T> to_vector();
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
   };
@@ -211,6 +214,11 @@ namespace picojson {
   }
 
   inline value& value::operator=(int v) {
+      new (this) value(v);
+      return *this;
+  }
+  
+  inline value& value::operator=(unsigned int v) {
       new (this) value(v);
       return *this;
   }

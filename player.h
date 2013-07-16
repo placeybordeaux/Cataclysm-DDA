@@ -56,7 +56,7 @@ public:
  nc_color color();				// What color to draw us as
 
  virtual void load_info(game *g, std::string data);// Load from file 'name.sav'
- virtual void save_info(picojson::value& json);		// Save to picojson node
+ virtual picojson::value save_info();		// Save to picojson node
 
  void disp_info(game *g);	// '@' key; extended character info
  void disp_morale(game *g);		// '%' key; morale info

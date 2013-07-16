@@ -219,15 +219,26 @@ struct npc_opinion
   return (npc_opinion(*this) += rhs);
  };
 
- std::string save_info()
+ picojson::value save_info()
  {
-  std::stringstream ret;
-  ret << trust << " " << fear << " " << value << " " << anger << " " << owed <<
-         " " << favors.size();
-  for (int i = 0; i < favors.size(); i++)
-    ret << " " << int(favors[i].type) << " " << favors[i].value << " " <<
-      favors[i].item_id << " " << favors[i].skill->id();
-  return ret.str();
+  picojson::value json(picojson::object_type, false);
+  json["trust"] = trust;
+  json["fear"] = fear;
+  json["value"] = value;
+  json["anger"] = anger;
+  json["owed"] = owed;
+
+  picojson::value::array values;
+  picojson::value favor(picojson::object_type, false);
+  for(int i = 0; i < favors.size(); i++) {
+   favor["type"] = favors[i].type;
+   favor["value"] = favors[i].value;
+   favor["item_id"] = favors[i].item_id;
+   favor["skill"] = favors[i].skill->id();
+   values.push_back(favor);
+  }
+  json["favors"] = values;
+  return json;
  }
 
  void load_info(std::stringstream &info)
@@ -422,7 +433,7 @@ public:
 
 // Save & load
  virtual void load_info(game *g, std::string data);// Overloaded from player
- virtual std::string save_info();
+ virtual picojson::value save_info();
 
 // Display
  void draw(WINDOW* w, int plx, int ply, bool inv);

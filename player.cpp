@@ -1223,8 +1223,9 @@ void player::load_info(game *g, std::string data)
  }
 }
 
-void player::save_info(picojson::value json)
+picojson::value player::save_info()
 {
+ picojson::value json(picojson::object_type, false);
  json["posx"] = posx;
  json["posy"] = posy;
  
@@ -1267,19 +1268,19 @@ void player::save_info(picojson::value json)
  json["backlog"] = backlog.save_info();
 
  picojson::value::array values;
- picojson::value::object subobject;
+ picojson::value subobject(picojson::object_type, false);
  for (int i = 0; i < PF_MAX2; i++) {
-  values.push_back(my_traits[i]);
+  values.push_back(picojson::value(my_traits[i]));
  }
  json["traits"] = values; values.clear();
  
  for (int i = 0; i < PF_MAX2; i++) {
-  values.push_back(my_mutations[i]);
+  values.push_back(picojson::value(my_mutations[i]));
  }
  json["mutations"] = values; values.clear();
 
  for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
-  values.push_back(mutation_category_level[i]);
+  values.push_back(picojson::value(mutation_category_level[i]));
  }
  json["mutation_category_levels"] = values; values.clear();
 
@@ -1289,28 +1290,28 @@ void player::save_info(picojson::value json)
  json["hp_cur"] = values; values.clear();
 
  for (int i = 0; i < num_hp_parts; i++) {
-  values.push_back(hp_max[i]);
+  values.push_back(picojson::value(hp_max[i]));
  }
  json["hp_max"] = values; values.clear();
  
  for (int i = 0; i < num_bp; i++) {
-  values.push_back(temp_cur[i]);
+  values.push_back(picojson::value(temp_cur[i]));
  }
  json["temp_cur"] = values; values.clear();
 
  for (int i = 0; i < num_bp; i++) {
-  values.push_back(temp_conv[i]);
+  values.push_back(picojson::value(temp_conv[i]));
  }
  json["temp_conv"] = values; values.clear();
 
  for (int i = 0; i < num_bp; i++) {
-  values.push_back(frostbite_timer[i]);
+  values.push_back(picojson::value(frostbite_timer[i]));
  }
  json["frostbite_timer"] = values; values.clear();
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
-   values.push_back(level);
+   values.push_back(picojson::value(level));
  }
  json["skill_levels"] = values; values.clear();
 
@@ -1318,12 +1319,12 @@ void player::save_info(picojson::value json)
       iter != learned_recipes.end();
       ++iter)
  {
-  values.push_back(iter->first);
+  values.push_back(picojson::value(iter->first));
  }
  json["learned_recipes"] = values; values.clear();
 
  for (int i = 0; i < styles.size(); i++) {
-  values.push_back(styles[i]);
+  values.push_back(picojson::value(styles[i]));
  }
  json["styles"] = values; values.clear();
 
@@ -1403,7 +1404,7 @@ void player::save_info(picojson::value json)
  }
  json["weapon_contents"] = values; values.clear(); subobject.clear();
 
- return;
+ return json;
 }
 
 void player::disp_info(game *g)
