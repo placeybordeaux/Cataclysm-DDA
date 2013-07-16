@@ -1223,103 +1223,187 @@ void player::load_info(game *g, std::string data)
  }
 }
 
-std::string player::save_info()
+void player::save_info(picojson::value json)
 {
- std::stringstream dump;
- dump << posx    << " " << posy    << " " << str_cur << " " << str_max << " " <<
-         dex_cur << " " << dex_max << " " << int_cur << " " << int_max << " " <<
-         per_cur << " " << per_max << " " << power_level << " " <<
-         max_power_level << " " << hunger << " " << thirst << " " << fatigue <<
-         " " << stim << " " << pain << " " << pkill << " " << radiation <<
-         " " << cash << " " << recoil << " " << driving_recoil << " " <<
-         (in_vehicle? 1 : 0) << " " << (controlling_vehicle? 1 : 0) << " " <<
-         scent << " " << moves << " " << underwater << " " << dodges_left <<
-         " " << blocks_left << " " << oxygen << " " << active_mission << " " <<
-         focus_pool << " " << male << " " << prof->ident() << " " << health <<
-         " " << style_selected << " " << activity.save_info() << " " <<
-         backlog.save_info() << " ";
+ json["posx"] = posx;
+ json["posy"] = posy;
+ 
+ json["str_cur"] = str_cur;
+ json["str_max"] = str_max;
+ json["dex_cur"] = dex_cur;
+ json["dex_max"] = dex_max;
+ json["int_cur"] = int_cur;
+ json["int_max"] = int_max;
+ json["per_cur"] = per_cur;
+ json["per_max"] = per_max;
+ 
+ json["power_level"] = power_level;
+ json["max_power_level"] = max_power_level;
+ json["thirst"] = thirst;
+ json["hunger"] = hunger;
+ json["fatigue"] = fatigue;
+ json["stim"] = stim;
+ json["pain"] = pain;
+ json["pkill"] = pkill;
+ json["radiation"] = radiation;
+ json["cash"] = cash;
+ json["recoil"] = recoil;
+ json["driving_recoil"] = driving_recoil;
+ json["in_vehicle"] = (in_vehicle != 0);
+ json["controlling_vehicle"] = (controlling_vehicle != 0);
+ json["scent"] = scent;
+ json["moves"] = moves;
+ json["underwater"] = underwater;
+ json["dodges_left"] = dodges_left;
+ json["blocks_left"] = blocks_left;
+ json["oxygen"] = oxygen;
+ json["active_mission"] = active_mission;
+ json["focus_pool"] = focus_pool;
+ json["male"] = male;
+ json["profession"] = prof->ident();
+ json["health"] = health;
+ json["style_selected"] = style_selected;
+ json["activity"] = activity.save_info();
+ json["backlog"] = backlog.save_info();
 
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_traits[i] << " ";
- for (int i = 0; i < PF_MAX2; i++)
-  dump << my_mutations[i] << " ";
- for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++)
-  dump << mutation_category_level[i] << " ";
- for (int i = 0; i < num_hp_parts; i++)
-  dump << hp_cur[i] << " " << hp_max[i] << " ";
- for (int i = 0; i < num_bp; i++)
-  dump << temp_cur[i] << " " << temp_conv[i] << " " << frostbite_timer[i] << " ";
+ picojson::value::array values;
+ picojson::value::object subobject;
+ for (int i = 0; i < PF_MAX2; i++) {
+  values.push_back(my_traits[i]);
+ }
+ json["traits"] = values; values.clear();
+ 
+ for (int i = 0; i < PF_MAX2; i++) {
+  values.push_back(my_mutations[i]);
+ }
+ json["mutations"] = values; values.clear();
+
+ for (int i = 0; i < NUM_MUTATION_CATEGORIES; i++) {
+  values.push_back(mutation_category_level[i]);
+ }
+ json["mutation_category_levels"] = values; values.clear();
+
+ for (int i = 0; i < num_hp_parts; i++) {
+  values.push_back(hp_cur[i]);
+ }
+ json["hp_cur"] = values; values.clear();
+
+ for (int i = 0; i < num_hp_parts; i++) {
+  values.push_back(hp_max[i]);
+ }
+ json["hp_max"] = values; values.clear();
+ 
+ for (int i = 0; i < num_bp; i++) {
+  values.push_back(temp_cur[i]);
+ }
+ json["temp_cur"] = values; values.clear();
+
+ for (int i = 0; i < num_bp; i++) {
+  values.push_back(temp_conv[i]);
+ }
+ json["temp_conv"] = values; values.clear();
+
+ for (int i = 0; i < num_bp; i++) {
+  values.push_back(frostbite_timer[i]);
+ }
+ json["frostbite_timer"] = values; values.clear();
 
  for (std::vector<Skill*>::iterator aSkill = Skill::skills.begin(); aSkill != Skill::skills.end(); ++aSkill) {
    SkillLevel level = skillLevel(*aSkill);
-   dump << level;
+   values.push_back(level);
  }
+ json["skill_levels"] = values; values.clear();
 
- dump << learned_recipes.size() << " ";
  for (std::map<std::string, recipe*>::iterator iter = learned_recipes.begin();
       iter != learned_recipes.end();
       ++iter)
  {
-  dump << iter->first << " ";
+  values.push_back(iter->first);
+ }
+ json["learned_recipes"] = values; values.clear();
+
+ for (int i = 0; i < styles.size(); i++) {
+  values.push_back(styles[i]);
+ }
+ json["styles"] = values; values.clear();
+
+ for (int i = 0; i < illness.size();  i++) {
+  subobject["type"] = illness[i].type;
+  subobject["duration"] = illness[i].duration;
+  subobject["intensity"] = illness[i].intensity;
+  values.push_back(subobject);
+ }
+ json["illness"] = values; values.clear(); subobject.clear();
+
+ for (int i = 0; i < additions.size();  i++) {
+  subobject["type"] = int(addictions[i].type);
+  subobject["sated"] = addictions[i].sated;
+  subobject["intensity"] = addictions[i].intensity;
+  values.push_back(subobject);
+ }
+ json["addictions"] = values; values.clear(); subobject.clear();
+
+ for (int i = 0; i < my_bionics.size();  i++) {
+  subobject["id"] = my_bionics[i].id;
+  subobject["invlet"] = my_bionics[i].invlet;
+  subobject["powered"] = my_bionics[i].powered;
+  subobject["charge"] = my_bionics[i].charge;
+  values.push_back(subobject);
+ }
+ json["bionics"] = values; values.clear(); subobject.clear();
+
+ for (int i = 0; i < morale.size();  i++) {
+  subobject["type"] = morale[i].type;
+  subobject["item_type"] = morale[i].item_type ?  morale[i].item_type->id : 0;
+  subobject["bonus"] = morale[i].bonus;
+  subobject["duration"] = morale[i].duration;
+  subobject["decay_start"] = morale[i].decay_start;
+  subobject["age"] = morale[i].age;
+  values.push_back(subobject);
+ }
+ json["morale"] = values; values.clear(); subobject.clear();
+
+ for (int i = 0; i < active_missions.size(); i++) {
+  values.push_back(active_missions[i]);
+ }
+ json["active_missions"] = values; values.clear();
+
+ for (int i = 0; i < completed_missions.size(); i++) {
+  values.push_back(completed_missions[i]);
+ }
+ json["completed_missions"] = values; values.clear();
+
+ for (int i = 0; i < failed_missions.size(); i++) {
+  values.push_back(failed_missions[i]);
+ }
+ json["failed_missions"] = values; values.clear();
+
+ json["inventory"] = inv.save_str_no_quant();
+
+ for (int i = 0; i < worn.size();  i++) {
+  subobject["item"] = worn[i].save_info();
+  
+  picojson::value::array contents;
+  for (int j = 0; j < worn[i].contents.size(); j++) {
+   contents.push_back(worn[i].contents[j].save_info());
+  }
+  subobject["contents"] = contents;
+  
+  values.push_back(subobject);
+ }
+ json["worn"] = values; values.clear(); subobject.clear();
+
+ 
+ if (!weapon.is_null()) {
+  json["weapon"] = weapon.save_info();
  }
 
- dump << styles.size() << " ";
- for (int i = 0; i < styles.size(); i++)
-  dump << styles[i] << " ";
-
- dump << illness.size() << " ";
- for (int i = 0; i < illness.size();  i++)
-  dump << illness[i].type << " " << illness[i].duration << " " << illness[i].intensity << " " ;
-
- dump << addictions.size() << " ";
- for (int i = 0; i < addictions.size(); i++)
-  dump << int(addictions[i].type) << " " << addictions[i].intensity << " " <<
-          addictions[i].sated << " ";
-
- dump << my_bionics.size() << " ";
- for (int i = 0; i < my_bionics.size(); i++)
-  dump << my_bionics[i].id << " " << my_bionics[i].invlet << " " <<
-          my_bionics[i].powered << " " << my_bionics[i].charge << " ";
-
- dump << morale.size() << " ";
- for (int i = 0; i < morale.size(); i++) {
-  // Output morale properties in structure order.
-  dump << morale[i].type << " ";
-  if (morale[i].item_type == NULL)
-   dump << "0";
-  else
-   dump << morale[i].item_type->id;
-  dump << " " << morale[i].bonus << " " << morale[i].duration << " "
-       << morale[i].decay_start << " " << morale[i].age << " ";
+ for (int j = 0; j < weapon.contents.size(); j++) {
+  values.push_back(weapon.contents[j].save_info());
  }
+ json["weapon_contents"] = values; values.clear(); subobject.clear();
 
- dump << " " << active_missions.size() << " ";
- for (int i = 0; i < active_missions.size(); i++)
-  dump << active_missions[i] << " ";
-
- dump << " " << completed_missions.size() << " ";
- for (int i = 0; i < completed_missions.size(); i++)
-  dump << completed_missions[i] << " ";
-
- dump << " " << failed_missions.size() << " ";
- for (int i = 0; i < failed_missions.size(); i++)
-  dump << failed_missions[i] << " ";
-
- dump << std::endl;
-
- dump << inv.save_str_no_quant();
-
- for (int i = 0; i < worn.size(); i++) {
-  dump << "W " << worn[i].save_info() << std::endl;
-  for (int j = 0; j < worn[i].contents.size(); j++)
-   dump << "S " << worn[i].contents[j].save_info() << std::endl;
- }
- if (!weapon.is_null())
-  dump << "w " << weapon.save_info() << std::endl;
- for (int j = 0; j < weapon.contents.size(); j++)
-  dump << "c " << weapon.contents[j].save_info() << std::endl;
-
- return dump.str();
+ return;
 }
 
 void player::disp_info(game *g)
