@@ -2669,7 +2669,8 @@ void game::save()
  for (int i = 0; i < num_monsters; i++)	// Save the kill counts, too.
   fout << kills[i] << " ";
  // And finally the player.
- fout << u.save_info() << std::endl;
+ picojson::value player_save;
+ u.save_info(player_save);
  fout << std::endl;
  fout.close();
  //factions, missions, and npcs, maps and artifact data is saved in cleanup_at_end()

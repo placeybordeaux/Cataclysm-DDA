@@ -40,6 +40,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 #ifdef _MSC_VER
     #define SNPRINTF _snprintf_s
@@ -90,6 +91,15 @@ namespace picojson {
     ~value();
     value(const value& x);
     value& operator=(const value& x);
+    value& operator=(bool b);
+    value& operator=(double n);
+    value& operator=(int n);
+    value& operator=(unsigned int n);
+    value& operator=(const std::string& s);
+    value& operator=(const array& s);
+    value& operator=(const object& s);
+    value& operator=(const char* s);
+    value& operator[](std::string key); // Must be object_type
     template <typename T> bool is() const;
     template <typename T> const T& get() const;
     template <typename T> T& get();
@@ -101,6 +111,8 @@ namespace picojson {
     std::string to_str() const;
     template <typename Iter> void serialize(Iter os) const;
     std::string serialize() const;
+    template <typename T> value from_vector(std::vector<T> from);
+    std::vector<typename T> std::vector<T> to_vector();
   private:
     template <typename T> value(const T*); // intentionally defined to block implicit conversion of pointer to bool
   };
@@ -189,6 +201,53 @@ namespace picojson {
       new (this) value(x);
     }
     return *this;
+  }
+
+  inline value& value::operator=(bool v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(double v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(int v) {
+      new (this) value(v);
+      return *this;
+  }
+  
+  inline value& value::operator=(unsigned int v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const std::string& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const array& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const object& v) {
+      new (this) value(v);
+      return *this;
+  }
+
+  inline value& value::operator=(const char* v) {
+      new (this) value(v);
+      return *this;
+  }
+  
+  inline value& value::operator[](std::string key) {
+    if(type_ != object_type) {
+        throw std::runtime_error("BUG: Attempting to assign attributes to JSON value that is not a JSON object.");
+    }
+    return (*object_)[key];
   }
 
 #define IS(ctype, jtype)			     \
