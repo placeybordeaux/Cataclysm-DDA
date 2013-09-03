@@ -1202,7 +1202,8 @@
         },
         {
             "id":"mon_dog",
-            "rotates":false
+            "rotates":false,
+            "fg":62
         },
         {
             "id":"mon_cat",
@@ -1288,7 +1289,7 @@
         },
         {
             "id":"mon_zombie_fast",
-            "fg": 61,
+            "fg": 62,
             "rotates":false
         },
         {
