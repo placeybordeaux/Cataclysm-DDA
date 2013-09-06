@@ -66,7 +66,6 @@ struct player_activity
 
  player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
  {
-  player_activity();
   type = t;
   moves_left = turns;
   index = Index;
