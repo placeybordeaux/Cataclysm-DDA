@@ -116,30 +116,30 @@ itype_id default_ammo(ammotype guntype);
 
 struct itype
 {
- itype_id id;		// ID # that matches its place in master itype list
+ itype_id id = "null";		// ID # that matches its place in master itype list
  			// Used for save files; aligns to itype_id above.
- unsigned int  price;	// Its value
+ unsigned int  price = 0;	// Its value
 
- std::string name;	// Proper name
- std::string description;// Flavor text
+ std::string name = "none";	// Proper name
+ std::string description = "";// Flavor text
 
- char sym;		// Symbol on the map
- nc_color color;	// Color on the map (color.h)
+ char sym = '#';		// Symbol on the map
+ nc_color color = c_white;	// Color on the map (color.h)
 
- std::string m1;		// Main material
- std::string m2;		// Secondary material -- "null" if made of just 1 thing
+ std::string m1 = "null";		// Main material
+ std::string m2 = "null";		// Secondary material -- "null" if made of just 1 thing
 
- phase_id phase;      //e.g. solid, liquid, gas
+ phase_id phase = SOLID;      //e.g. solid, liquid, gas
 
- unsigned int volume;	// Space taken up by this item
- unsigned int weight;	// Weight in grams. Assumes positive weight. No helium, guys!
- bigness_property_aspect bigness_aspect;
+ unsigned int volume = 0;	// Space taken up by this item
+ unsigned int weight = 0;	// Weight in grams. Assumes positive weight. No helium, guys!
+ bigness_property_aspect bigness_aspect = NULL;
 
- mtype*   corpse;
+ mtype*   corpse = NULL;
 
- signed char melee_dam;	// Bonus for melee damage; may be a penalty
- signed char melee_cut;	// Cutting damage in melee
- signed char m_to_hit;	// To-hit bonus for melee combat; -5 to 5 is reasonable
+ signed char melee_dam = 0;	// Bonus for melee damage; may be a penalty
+ signed char melee_cut = 0;	// Cutting damage in melee
+ signed char m_to_hit = 0;	// To-hit bonus for melee combat; -5 to 5 is reasonable
 
  std::set<std::string> item_tags;
  unsigned techniques : NUM_TECHNIQUES;
@@ -170,23 +170,6 @@ struct itype
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
 
  itype() {
-  id = "null";
-  name  = "none";
-  sym = '#';
-  color = c_white;
-  m1 = "null";
-  m2 = "null";
-  phase = SOLID;
-  volume = 0;
-  weight = 0;
-  corpse = NULL;
-  melee_dam = 0;
-  m_to_hit = 0;
-  techniques = 0;
-  use = &iuse::none;
-  price = 0;
-  bigness_aspect = NULL;
-  melee_cut = NULL;
  }
 
  itype(std::string pid, unsigned int pprice,

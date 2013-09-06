@@ -52,18 +52,17 @@ enum activity_type {
 
 struct player_activity
 {
- activity_type type;
- int moves_left;
- int index;
- char invlet;
- std::string name;
- bool continuous;
- bool ignore_trivial;
+ activity_type type = ACT_NULL;
+ int moves_left = 0;
+ int index = -1;
+ char invlet = 0;
+ std::string name = "";
+ bool continuous = false;
+ bool ignore_trivial = false;
  std::vector<int> values;
- point placement;
+ point placement = point(-1, -1);
 
- player_activity() { type = ACT_NULL; moves_left = 0; index = -1; invlet = 0;
-                     name = ""; placement = point(-1, -1); continuous = false; ignore_trivial = false;}
+ player_activity() {}
 
  player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
  {
