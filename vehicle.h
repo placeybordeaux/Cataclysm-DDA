@@ -37,16 +37,15 @@ enum veh_coll_type {
 
 struct veh_collision {
  //int veh?
- int part;
- veh_coll_type type;
- int imp; // impulse
+ int part = 0;
+ veh_coll_type type = NULL;
+ int imp = 0; // impulse
 
  void* target;  //vehicle
- int target_part; //veh partnum
- std::string target_name;
+ int target_part = 0; //veh partnum
+ std::string target_name = "";
  veh_collision(){};
 };
-
 
 /**
  * Structure, describing vehicle part (ie, wheel, seat)

@@ -183,7 +183,7 @@ struct mission {
  int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
  int step;		// How much have we completed?
- mission_id follow_up;	// What mission do we get after this succeeds?
+ mission_id follow_up = NULL;	// What mission do we get after this succeeds?
 
  std::string name();
  std::string save_info();

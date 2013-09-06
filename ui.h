@@ -31,17 +31,17 @@ struct mvwzstr {
  * uimenu_entry: entry line for uimenu
  */
 struct uimenu_entry {
-    int retval;           // return this int
-    bool enabled;         // darken, and forbid scrolling if hilight_disabled is false
-    int hotkey;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
+    int retval = -1;           // return this int
+    bool enabled = true;         // darken, and forbid scrolling if hilight_disabled is false
+    int hotkey = -1;           // keycode from (int)getch(). -1: automagically pick first free character: 1-9 a-z A-Z
     std::string txt;      // what it says on the tin
     nc_color hotkey_color;
-    nc_color text_color;
+    nc_color text_color = C_UNSET_MASK;
     mvwzstr extratxt;
     //std::string filtertxt; // possibly useful
-    uimenu_entry(std::string T) { retval = -1; enabled=true; hotkey=-1; txt=T;text_color=C_UNSET_MASK;};
-    uimenu_entry(std::string T, int K) { retval = -1; enabled=true; hotkey=K; txt=T; text_color=C_UNSET_MASK; };
-    uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T) {text_color=C_UNSET_MASK;};
+    uimenu_entry(std::string T) {txt=T;};
+    uimenu_entry(std::string T, int K) { hotkey=K; txt=T;};
+    uimenu_entry(int R, bool E, int K, std::string T) : retval(R), enabled(E), hotkey(K), txt(T) {};
 };
 
 /*
