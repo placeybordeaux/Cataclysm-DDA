@@ -25,21 +25,14 @@ public:
 };
 
 struct bionic {
- bionic_id id;
- char invlet;
- bool powered;
- int charge;
- bionic() {
-  id = "bio_batteries";
-  invlet = 'a';
-  powered = false;
-  charge = 0;
- }
+ bionic_id id = "bio_batteries";
+ char invlet = 'a';
+ bool powered = false;
+ int charge = 0;
+ bionic() {}
  bionic(bionic_id pid, char pinvlet) {
   id = pid;
   invlet = pinvlet;
-  powered = false;
-  charge = 0;
  };
 };
 

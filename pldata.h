@@ -25,11 +25,11 @@ enum add_type {
 
 struct disease
 {
- dis_type type = "null;
- int intensity = 0;
- int duration = 0;
- disease() {}
- disease(dis_type t, int d, int i = 0) { type = t; duration = d; intensity = i;}
+ dis_type type;
+ int intensity;
+ int duration;
+ disease() : type("null"), intensity(0), duration(0) {}
+ disease(dis_type t, int d, int i = 0) : type(t), duration(d), intensity(i) {}
 };
 
 struct addiction
@@ -38,8 +38,8 @@ struct addiction
  int intensity;
  int sated;
  addiction() { type = ADD_NULL; intensity = 0; sated = 600; }
- addiction(add_type t) { type = t; intensity = 1; sated = 600; }
- addiction(add_type t, int i) { type = t; intensity = i; sated = 600; }
+ addiction(add_type t) : addiction() { type = t; }
+ addiction(add_type t, int i) : addiction(t) { intensity = i; }
 };
 
 enum activity_type {
@@ -52,41 +52,41 @@ enum activity_type {
 
 struct player_activity
 {
- activity_type type = ACT_NULL;
- int moves_left = 0;
- int index = -1;
- char invlet = 0;
- std::string name = "";
- bool continuous = false;
- bool ignore_trivial = false;
+ activity_type type;
+ int moves_left;
+ int index;
+ char invlet;
+ std::string name;
+ bool continuous;
+ bool ignore_trivial;
  std::vector<int> values;
- point placement = point(-1, -1);
+ point placement;
 
- player_activity() {}
+ player_activity() : type(ACT_NULL), moves_left(0), index(-1), invlet(0),
+      name(""), continuous(false), ignore_trivial(false), placement(point(-1, -1)) {}
 
- player_activity(activity_type t, int turns, int Index, char ch, std::string name_in)
- {
-  type = t;
-  moves_left = turns;
-  index = Index;
-  invlet = ch;
-  name = name_in;
- }
+ player_activity(activity_type _type, int _moves_left, int _index, char _invlet, std::string _name) :
+      player_activity(), 
+      type(_type), 
+      moves_left(_moves_left),
+      index(_index),
+      invlet(_invlet),
+      name(_name) {}
 
- player_activity(const player_activity &copy)
- {
-  type = copy.type;
-  moves_left = copy.moves_left;
-  index = copy.index;
-  invlet = copy.invlet;
-  name = copy.name;
-  placement = copy.placement;
-  continuous = copy.continuous;
-  ignore_trivial = copy.ignore_trivial;
-  values.clear();
-  for (int i = 0; i < copy.values.size(); i++)
-   values.push_back(copy.values[i]);
- }
+ player_activity(const player_activity &copy) :
+      type(copy.type),
+      moves_left(copy.moves_left),
+      index(copy.index),
+      invlet(copy.invlet),
+      name(copy.name),
+      placement(copy.placement),
+      continuous(copy.continuous),
+      ignore_trivial(copy.ignore_trivial)
+     {
+      values.clear();
+      for (int i = 0; i < copy.values.size(); i++)
+       values.push_back(copy.values[i]);
+     }
 
  std::string save_info()
  {
@@ -126,11 +126,6 @@ struct trait {
 };
 
 extern std::map<std::string, trait> traits;
-
-inline bool trait_display_sort(const std::string &a, const std::string &b)
-{
-    return traits[a].name < traits[b].name;
-}
 
 enum hp_part {
     hp_head = 0,
