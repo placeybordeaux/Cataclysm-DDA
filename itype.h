@@ -87,7 +87,6 @@ BIGNESS_ENGINE_NULL,         // like a cookie-cutter-cut cookie, this type has n
 BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
 BIGNESS_KILOWATTS,           // electric motor power
 BIGNESS_WHEEL_DIAMETER,      // wheel size in inches, including tire
-//BIGNESS_PLATING_THICKNESS, //
 NUM_BIGNESS_ASPECTS,
 };
 
@@ -185,6 +184,9 @@ struct itype
   m_to_hit = 0;
   techniques = 0;
   use = &iuse::none;
+  price = 0;
+  bigness_aspect = NULL;
+  melee_cut = NULL;
  }
 
  itype(std::string pid, unsigned int pprice,
@@ -216,16 +218,16 @@ struct itype
 // Includes food drink and drugs
 struct it_comest : public itype
 {
-    signed char quench;	// Many things make you thirstier!
-    unsigned char nutr;	// Nutrition imparted
-    unsigned char spoils;	// How long it takes to spoil (hours / 600 turns)
-    unsigned char addict;	// Addictiveness potential
-    unsigned char charges;	// Defaults # of charges (drugs, loaf of bread? etc)
-    signed char stim;
-    signed char healthy;
-    std::string comesttype; //FOOD, DRINK, MED
+    signed char quench = 0;	// Many things make you thirstier!
+    unsigned char nutr = 0;	// Nutrition imparted
+    unsigned char spoils = 0;	// How long it takes to spoil (hours / 600 turns)
+    unsigned char addict = 0;	// Addictiveness potential
+    unsigned char charges = 0;	// Defaults # of charges (drugs, loaf of bread? etc)
+    signed char stim = 0;
+    signed char healthy = 0;
+    std::string comesttype = NULL; //FOOD, DRINK, MED
 
-    signed char fun;	// How fun its use is
+    signed char fun = 0;	// How fun its use is
 
     itype_id container;	// The container it comes in
     itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
@@ -366,16 +368,16 @@ struct it_ammo : public itype
 struct it_gun : public itype
 {
  ammotype ammo;
- Skill *skill_used;
- signed char dmg_bonus;
- signed char pierce;
- signed char range;
- signed char dispersion;
- signed char recoil;
- signed char durability;
- unsigned char burst;
- int clip;
- int reload_time;
+ Skill *skill_used = NULL;
+ signed char dmg_bonus = 0;
+ signed char pierce = 0;
+ signed char range = 0;
+ signed char dispersion = 0;
+ signed char recoil = 0;
+ signed char durability = 0;
+ unsigned char burst = 0;
+ int clip = 0;
+ int reload_time = 0;
 
  std::set<std::string> ammo_effects;
 
