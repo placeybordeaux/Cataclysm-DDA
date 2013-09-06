@@ -226,7 +226,7 @@ struct it_comest : public itype
     add_type add;				// Effects of addiction
 
     it_comest() : itype(), quench(0), nutr(0), spoils(0), addict(0), charges(0),
-        stim(0), healthy(0), comesttype(NULL), fun(0) { };
+        stim(0), healthy(0), comesttype(NULL), fun(0), add(NULL) { };
 
     it_comest(std::string pid, unsigned int pprice,
     std::string pname, std::string pdes,
@@ -349,20 +349,23 @@ struct it_ammo : public itype
 struct it_gun : public itype
 {
  ammotype ammo;
- Skill *skill_used = NULL;
- signed char dmg_bonus = 0;
- signed char pierce = 0;
- signed char range = 0;
- signed char dispersion = 0;
- signed char recoil = 0;
- signed char durability = 0;
- unsigned char burst = 0;
- int clip = 0;
- int reload_time = 0;
+ Skill *skill_used;
+ signed char dmg_bonus;
+ signed char pierce;
+ signed char range;
+ signed char dispersion;
+ signed char recoil;
+ signed char durability;
+ unsigned char burst;
+ int clip;
+ int reload_time;
 
  std::set<std::string> ammo_effects;
 
  virtual bool is_gun() { return true; }
+
+ it_gun() : itype(), skill_used(NULL), ammo(NULL), dmg_bonus(0), pierce(0), range(0), dispersion(0),
+    recoil(0), durability(0), burst(0), clip(0), reload_time(0) {};
 
  it_gun(std::string pid, unsigned int pprice,
         std::string pname, std::string pdes,
@@ -390,9 +393,9 @@ struct it_gun : public itype
   reload_time = preload_time;
   ammo_effects = effects;
   item_tags = flags;
+  pierce = 0;
  }
 
- it_gun() :itype() { };
 };
 
 struct it_gunmod : public itype
@@ -407,6 +410,9 @@ struct it_gunmod : public itype
 
  virtual bool is_gunmod() { return true; }
 
+ it_gunmod() : itype(), dispersion(0), damage(0), loudness(0), clip(0),
+    recoil(0), burst(0), newtype(NULL), used_on_pistol(false),
+    used_on_shotgun(false), used_on_smg(false), used_on_rifle(false) { };
  it_gunmod(std::string pid, unsigned int pprice,
            std::string pname, std::string pdes,
            char psym, nc_color pcolor, std::string pm1, std::string pm2,
@@ -435,7 +441,6 @@ struct it_gunmod : public itype
   used_on_rifle = rifle;
  }
 
- it_gunmod() :itype() { };
 };
 
 struct it_armor : public itype
