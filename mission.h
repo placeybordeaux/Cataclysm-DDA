@@ -208,7 +208,7 @@ struct mission {
   good_fac_id(-1),
   bad_fac_id(-1),
   step(0),
-  follow_up(NULL)
+  follow_up(MISSION_NULL)
   {}
 };
 

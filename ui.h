@@ -39,11 +39,11 @@ struct uimenu_entry {
     nc_color text_color = C_UNSET_MASK;
     mvwzstr extratxt;
     //std::string filtertxt; // possibly useful
-    uimenu_entry() : retval(-1), enabled(true), hotkey(-1), txt(""), extratxt(""),
+    uimenu_entry() : retval(-1), enabled(true), hotkey(-1), txt(""),
          hotkey_color(c_white), text_color(c_white) {};
-    uimenu_entry(std::string T) : uimenu_entry(), txt(T) {};
-    uimenu_entry(std::string T, int K) : uimenu_entry(T), hotkey(K) {};
-    uimenu_entry(int R, bool E, int K, std::string T) : uimenu_entry(T,K), retval(R), enabled(E) {};
+    uimenu_entry(std::string T) : uimenu_entry() {txt = T;};
+    uimenu_entry(std::string T, int K) : uimenu_entry(T) {hotkey = K;};
+    uimenu_entry(int R, bool E, int K, std::string T) : uimenu_entry(T,K) {retval = R; enabled = E;};
 };
 
 /*

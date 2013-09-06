@@ -26,7 +26,7 @@ struct iteminfo{
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
 
-  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) :  sType(sIn0), sName(sIn1), sFmt(sIn2), is_int(bIn0), dValue(dIn0), sPlus(sIn3), bNewLine(bIn1), bLowerIsBetter(bIn2)
+  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) :  sType(sIn0), sName(sIn1), sFmt(sIn2), dValue(dIn0), is_int(bIn0), sPlus(sIn3), bNewLine(bIn1), bLowerIsBetter(bIn2)
    {
     std::stringstream convert;
     if (bIn0 == true) {

@@ -16,8 +16,8 @@ typedef std::vector< std::list<item>* > invslice;
 
 class inventory
 {
- inventory() {};
  public:
+  inventory() {};
   invslice slice(int start, int length);
   invslice slice(const std::list<item>* stack, int length);
   // returns an inventory instance containing only the chosen items

@@ -67,7 +67,7 @@ NUM_LESSONS
 
 struct tutorial_game : public special_game
 {
- virtual tutorial_game() : tutorials_seen(bool[NUM_LESSONS]) {};
+ tutorial_game() {};
  virtual special_game_id id() { return SGAME_TUTORIAL; };
  virtual bool init(game *g);
  virtual void per_turn(game *g);

@@ -29,8 +29,8 @@ struct bionic {
  char invlet;
  bool powered;
  int charge;
- bionic() : bionic_id("bio_batteries"), invlet('a'), powered(false), charge(0) {}
- bionic(bionic_id pid, char pinvlet) : bionic(), id(pid), invlet(pinvlet) {};
+ bionic() : id("bio_batteries"), invlet('a'), powered(false), charge(0) {}
+ bionic(bionic_id pid, char pinvlet) : id(pid), invlet(pinvlet), powered(false), charge(0) {};
 };
 
 extern std::map<bionic_id, bionic_data*> bionics;

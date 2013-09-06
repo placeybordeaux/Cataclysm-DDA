@@ -66,12 +66,12 @@ struct player_activity
       name(""), continuous(false), ignore_trivial(false), placement(point(-1, -1)) {}
 
  player_activity(activity_type _type, int _moves_left, int _index, char _invlet, std::string _name) :
-      player_activity(), 
       type(_type), 
       moves_left(_moves_left),
       index(_index),
       invlet(_invlet),
-      name(_name) {}
+      name(_name),
+      continuous(false), ignore_trivial(false), placement(point(-1, -1)){}
 
  player_activity(const player_activity &copy) :
       type(copy.type),
@@ -79,9 +79,9 @@ struct player_activity
       index(copy.index),
       invlet(copy.invlet),
       name(copy.name),
-      placement(copy.placement),
       continuous(copy.continuous),
-      ignore_trivial(copy.ignore_trivial)
+      ignore_trivial(copy.ignore_trivial),
+      placement(copy.placement)
      {
       values.clear();
       for (int i = 0; i < copy.values.size(); i++)
@@ -126,6 +126,11 @@ struct trait {
 };
 
 extern std::map<std::string, trait> traits;
+
+inline bool trait_display_sort(const std::string &a, const std::string &b)
+{
+        return traits[a].name < traits[b].name;
+};
 
 enum hp_part {
     hp_head = 0,

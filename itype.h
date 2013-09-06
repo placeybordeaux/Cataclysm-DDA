@@ -165,7 +165,7 @@ struct itype
 
  itype() : id("null"), price(0), name("none"), description(""), sym('#'), 
     color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), weight(0),
-    bigness_aspect(0), corpse(NULL), melee_dam(0), melee_cut(0), m_to_hit(0),
+    bigness_aspect(BIGNESS_ENGINE_NULL), corpse(NULL), melee_dam(0), melee_cut(0), m_to_hit(0),
     techniques(NUM_TECHNIQUES) {}
 
  itype(std::string pid, unsigned int pprice,
@@ -226,7 +226,7 @@ struct it_comest : public itype
     add_type add;				// Effects of addiction
 
     it_comest() : itype(), quench(0), nutr(0), spoils(0), addict(0), charges(0),
-        stim(0), healthy(0), comesttype(NULL), fun(0), add(NULL) { };
+        stim(0), healthy(0), comesttype(NULL), fun(0), add(ADD_NULL) { };
 
     it_comest(std::string pid, unsigned int pprice,
     std::string pname, std::string pdes,
@@ -240,7 +240,7 @@ struct it_comest : public itype
     unsigned char pcharges, signed char pfun, itype_id pcontainer,
     itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
     add_type padd, std::string pcomesttype)
-    : it_comest(), itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
+    : itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         quench     = pquench;
@@ -364,7 +364,7 @@ struct it_gun : public itype
 
  virtual bool is_gun() { return true; }
 
- it_gun() : itype(), skill_used(NULL), ammo(NULL), dmg_bonus(0), pierce(0), range(0), dispersion(0),
+ it_gun() : ammo(NULL), skill_used(NULL), dmg_bonus(0), pierce(0), range(0), dispersion(0),
     recoil(0), durability(0), burst(0), clip(0), reload_time(0) {};
 
  it_gun(std::string pid, unsigned int pprice,
@@ -780,7 +780,7 @@ struct it_artifact_tool : public it_tool
   price = 0;
   def_charges = 0;
   charges_per_use = 1;
-  charge_type = NULL;
+  charge_type = ARTC_NULL;
   turns_per_charge = 0;
   revert_to = "null";
   use = &iuse::artifact;

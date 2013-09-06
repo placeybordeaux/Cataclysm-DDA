@@ -80,8 +80,15 @@ struct game_message
  calendar turn;
  int count;
  std::string message;
- game_message() { turn = 0; count = 1; message = ""; };
- game_message(calendar T, std::string M) : turn (T), message (M) { count = 1; };
+ game_message() : turn(0), count(1) {};
+ game_message(calendar T, std::string M) : turn (T), count(1), message (M) {};
+ game_message(const game_message &other) : turn(other.turn), count(other.count), message(other.message) {};
+ game_message & operator = (const game_message &other){
+     turn = other.turn;
+     count = other.count;
+     message = other.message;
+     return *this;
+ }
 };
 
 struct mtype;

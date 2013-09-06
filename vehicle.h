@@ -42,7 +42,7 @@ struct veh_collision {
  void* target;  //vehicle
  int target_part; //veh partnum
  std::string target_name;
- veh_collision() : part(0), type(NULL), imp(0), target(NULL), target_part(0), target_name("") {};
+ veh_collision() : part(0), type(veh_coll_nothing), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
 /**
