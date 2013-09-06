@@ -25,15 +25,12 @@ public:
 };
 
 struct bionic {
- bionic_id id = "bio_batteries";
- char invlet = 'a';
- bool powered = false;
- int charge = 0;
- bionic() {}
- bionic(bionic_id pid, char pinvlet) {
-  id = pid;
-  invlet = pinvlet;
- };
+ bionic_id id;
+ char invlet;
+ bool powered;
+ int charge;
+ bionic() : bionic_id("bio_batteries"), invlet('a'), powered(false), charge(0) {}
+ bionic(bionic_id pid, char pinvlet) : bionic(), id(pid), invlet(pinvlet) {};
 };
 
 extern std::map<bionic_id, bionic_data*> bionics;
