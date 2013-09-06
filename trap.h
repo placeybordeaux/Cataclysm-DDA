@@ -137,18 +137,11 @@ struct trap {
       int pvisibility, int pavoidance, int pdifficulty,
       void (trapfunc::*pact)(game *, int x, int y),
       void (trapfuncm::*pactm)(game *, monster *, int x, int y),
-      std::vector<std::string> keys) {
+      std::vector<std::string> keys) :
   //string_id is ignored at the moment, will later replace the id
-  id = pid;
-  sym = psym;
-  color = pcolor;
-  name = pname;
-  visibility = pvisibility;
-  avoidance = pavoidance;
-  difficulty = pdifficulty;
-  act = pact;
-  actm = pactm;
-
+  id(pid), sym(psym), color(pcolor), name(pname), visibility(pvisibility),
+  avoidance(pavoidance), difficulty(pdifficulty), act(pact), actm(pactm)
+ {
   components.insert(components.end(), keys.begin(), keys.end());
  };
 };
