@@ -101,12 +101,7 @@ struct style_move
  style_move(std::string N, std::string V1, std::string V2, technique_id T, int L) :
   name (N),verb_you (V1),verb_npc (V2), tech (T), level (L) { };
 
- style_move()
- {
-  name = verb_you = verb_npc = "";
-  tech = TEC_NULL;
-  level = 0;
- }
+ style_move() : name(""), verb_you(""), verb_npc(""), tech(TEC_NULL), level(0) {}
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
