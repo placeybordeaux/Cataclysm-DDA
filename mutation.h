@@ -7,14 +7,11 @@
 
 struct dream
 {
-    std::vector<std::string> message;			// The messages that the dream will give
+    std::vector<std::string> message;
     std::string category;	// The category that will trigger the dream
     int strength;					// The category strength required for the dream
 
-    dream() {
-        category = "";
-        strength = 0;
-    }
+    dream() : category(""), strength(0) {}
 };
 
 extern std::vector<dream> dreams;
@@ -31,7 +28,7 @@ struct mutation_branch
     std::vector<std::string> category; // Mutation Categorys
     std::vector<mutation_wet> protection; // Mutation wet effects
 
-    mutation_branch() { valid = false; };
+    mutation_branch() : valid(false) {};
 };
 
 
