@@ -521,13 +521,13 @@ struct recipe;
 
 struct it_book : public itype
 {
- Skill *type;		// Which skill it upgrades
- unsigned char level;	// The value it takes the skill to
- unsigned char req;	// The skill level required to understand it
- signed char fun;	// How fun reading this is
- unsigned char intel;	// Intelligence required to read, at all
- unsigned char time;	// How long, in 10-turns (aka minutes), it takes to read
-			// "To read" means getting 1 skill point, not all of em
+ Skill *type = NULL;	        // Which skill it upgrades
+ unsigned char level = 0;       // The value it takes the skill to
+ unsigned char req = 0; 	// The skill level required to understand it
+ signed char fun = 0;   	// How fun reading this is
+ unsigned char intel = 0;	// Intelligence required to read, at all
+ unsigned char time = 0;	// How long, in 10-turns (aka minutes), it takes to read
+		        	// "To read" means getting 1 skill point, not all of em
  std::map<recipe*, int> recipes; //what recipes can be learned from this book
  virtual bool is_book() { return true; }
  it_book() {}
@@ -552,7 +552,7 @@ struct it_book : public itype
 
 struct it_container : public itype
 {
- unsigned char contains;	// Internal volume
+ unsigned char contains = 0;	// Internal volume
  virtual bool is_container() { return true; }
  it_container() {};
 };
@@ -794,6 +794,7 @@ struct it_artifact_tool : public it_tool
   price = 0;
   def_charges = 0;
   charges_per_use = 1;
+  charge_type = NULL;
   turns_per_charge = 0;
   revert_to = "null";
   use = &iuse::artifact;

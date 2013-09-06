@@ -16,6 +16,7 @@ typedef std::vector< std::list<item>* > invslice;
 
 class inventory
 {
+ inventory() {};
  public:
   invslice slice(int start, int length);
   invslice slice(const std::list<item>* stack, int length);
