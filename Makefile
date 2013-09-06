@@ -34,7 +34,7 @@ WARNINGS = -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-
 #WARNINGS = -w
 DEBUG = -g
 #PROFILE = -pg
-#OTHERS = -O3
+OTHERS = -std=c++11 
 #DEFINES = -DNDEBUG
 
 # Disable debug. Comment this out to get logging.
@@ -72,8 +72,8 @@ W32ODIRTILES = objwin/tiles
 DDIR = .deps
 
 OS  = $(shell uname -o)
-CXX = $(CROSS)g++
-LD  = $(CROSS)g++
+CXX = $(CROSS)clang++
+LD  = $(CROSS)clang++
 RC  = $(CROSS)windres
 
 # enable optimizations. slow to build

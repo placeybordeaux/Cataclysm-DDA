@@ -26,9 +26,9 @@ enum add_type {
 struct disease
 {
  dis_type type;
- int intensity;
  int duration;
- disease() : type("null"), intensity(0), duration(0) {}
+ int intensity;
+ disease() : type("null"), duration(0), intensity(0) {}
  disease(dis_type t, int d, int i = 0) : type(t), duration(d), intensity(i) {}
 };
 

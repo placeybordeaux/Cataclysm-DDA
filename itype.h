@@ -131,9 +131,9 @@ struct itype
 
  mtype*   corpse;
 
- signed char melee_dam; may be a penalty
+ signed char melee_dam; // may be a penalty
  signed char melee_cut;	// Cutting damage in melee
- signed char m_to_hit; -5 to 5 is reasonable
+ signed char m_to_hit; //-5 to 5 is reasonable
 
  std::set<std::string> item_tags;
  unsigned techniques;
@@ -165,7 +165,7 @@ struct itype
 
  itype() : id("null"), price(0), name("none"), description(""), sym('#'), 
     color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), weight(0),
-    bigness_aspect(NULL), corpse(NULL), melee_dam(0), melee_cut(0), m_to_hit(0),
+    bigness_aspect(0), corpse(NULL), melee_dam(0), melee_cut(0), m_to_hit(0),
     techniques(NUM_TECHNIQUES) {}
 
  itype(std::string pid, unsigned int pprice,
