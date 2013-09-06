@@ -116,33 +116,32 @@ itype_id default_ammo(ammotype guntype);
 
 struct itype
 {
- itype_id id = "null";		// ID # that matches its place in master itype list
- 			// Used for save files; aligns to itype_id above.
- unsigned int  price = 0;	// Its value
+ itype_id id;		// ID # that matches its place in master itype list
+ unsigned int  price;	// Its value
 
- std::string name = "none";	// Proper name
- std::string description = "";// Flavor text
+ std::string name;	// Proper name
+ std::string description;// Flavor text
 
- char sym = '#';		// Symbol on the map
- nc_color color = c_white;	// Color on the map (color.h)
+ char sym;		// Symbol on the map
+ nc_color color;	// Color on the map (color.h)
 
- std::string m1 = "null";		// Main material
- std::string m2 = "null";		// Secondary material -- "null" if made of just 1 thing
+ std::string m1;		// Main material
+ std::string m2;		// Secondary material -- "null" if made of just 1 thing
 
- phase_id phase = SOLID;      //e.g. solid, liquid, gas
+ phase_id phase;      //e.g. solid, liquid, gas
 
- unsigned int volume = 0;	// Space taken up by this item
- unsigned int weight = 0;	// Weight in grams. Assumes positive weight. No helium, guys!
- bigness_property_aspect bigness_aspect = NULL;
+ unsigned int volume;	// Space taken up by this item
+ unsigned int weight;	// Weight in grams. Assumes positive weight. No helium, guys!
+ bigness_property_aspect bigness_aspect;
 
- mtype*   corpse = NULL;
+ mtype*   corpse;
 
- signed char melee_dam = 0;	// Bonus for melee damage; may be a penalty
- signed char melee_cut = 0;	// Cutting damage in melee
- signed char m_to_hit = 0;	// To-hit bonus for melee combat; -5 to 5 is reasonable
+ signed char melee_dam; may be a penalty
+ signed char melee_cut;	// Cutting damage in melee
+ signed char m_to_hit; -5 to 5 is reasonable
 
  std::set<std::string> item_tags;
- unsigned techniques : NUM_TECHNIQUES;
+ unsigned techniques;
 
  virtual bool is_food()          { return false; }
  virtual bool is_ammo()          { return false; }
@@ -169,15 +168,17 @@ struct itype
 
  void (iuse::*use)(game *, player *, item *, bool);// Special effects of use
 
- itype() {
- }
+ itype() : id("null"), price(0), name("none"), description(""), sym('#'), 
+    color(c_white), m1("null"), m2("null"), phase(SOLID), volume(0), weight(0),
+    bigness_aspect(NULL), corpse(NULL), melee_dam(0), melee_cut(0), m_to_hit(0),
+    techniques(NUM_TECHNIQUES) {}
 
  itype(std::string pid, unsigned int pprice,
        std::string pname, std::string pdes,
        char psym, nc_color pcolor, std::string pm1, std::string pm2, phase_id pphase,
        unsigned short pvolume, unsigned int pweight,
        signed char pmelee_dam, signed char pmelee_cut, signed char pm_to_hit,
-       unsigned ptechniques = 0) {
+       unsigned ptechniques = 0) : itype() {
   id          = pid;
   price       = pprice;
   name        = pname;
@@ -201,16 +202,16 @@ struct itype
 // Includes food drink and drugs
 struct it_comest : public itype
 {
-    signed char quench = 0;	// Many things make you thirstier!
-    unsigned char nutr = 0;	// Nutrition imparted
-    unsigned char spoils = 0;	// How long it takes to spoil (hours / 600 turns)
-    unsigned char addict = 0;	// Addictiveness potential
-    unsigned char charges = 0;	// Defaults # of charges (drugs, loaf of bread? etc)
-    signed char stim = 0;
-    signed char healthy = 0;
-    std::string comesttype = NULL; //FOOD, DRINK, MED
+    signed char quench;	// Many things make you thirstier!
+    unsigned char nutr;	// Nutrition imparted
+    unsigned char spoils;	// How long it takes to spoil (hours / 600 turns)
+    unsigned char addict;	// Addictiveness potential
+    unsigned char charges;	// Defaults # of charges (drugs, loaf of bread? etc)
+    signed char stim;
+    signed char healthy;
+    std::string comesttype; //FOOD, DRINK, MED
 
-    signed char fun = 0;	// How fun its use is
+    signed char fun;	// How fun its use is
 
     itype_id container;	// The container it comes in
     itype_id tool;		// Tool needed to consume (e.g. lighter for cigarettes)
@@ -229,6 +230,9 @@ struct it_comest : public itype
 
     add_type add;				// Effects of addiction
 
+    it_comest() : itype(), quench(0), nutr(0), spoils(0), addict(0), charges(0),
+        stim(0), healthy(0), comesttype(NULL), fun(0) { };
+
     it_comest(std::string pid, unsigned int pprice,
     std::string pname, std::string pdes,
     char psym, nc_color pcolor, std::string pm1, phase_id pphase,
@@ -241,7 +245,7 @@ struct it_comest : public itype
     unsigned char pcharges, signed char pfun, itype_id pcontainer,
     itype_id ptool, void (iuse::*puse)(game *, player *, item *, bool),
     add_type padd, std::string pcomesttype)
-    :itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
+    : it_comest(), itype(pid, pprice, pname, pdes, psym, pcolor, pm1, "null", pphase,
     pvolume, pweight, pmelee_dam, pmelee_cut, pm_to_hit)
     {
         quench     = pquench;
@@ -259,7 +263,6 @@ struct it_comest : public itype
         comesttype = pcomesttype;
     }
 
-    it_comest() :itype() { };
 };
 
 // v6, v8, wankel, etc.

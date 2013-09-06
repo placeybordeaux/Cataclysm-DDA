@@ -36,15 +36,13 @@ enum veh_coll_type {
 };
 
 struct veh_collision {
- //int veh?
- int part = 0;
- veh_coll_type type = NULL;
- int imp = 0; // impulse
-
+ int part;
+ veh_coll_type type;
+ int imp; // impulse
  void* target;  //vehicle
- int target_part = 0; //veh partnum
- std::string target_name = "";
- veh_collision(){};
+ int target_part; //veh partnum
+ std::string target_name;
+ veh_collision() : part(0), type(NULL), imp(0), target(NULL), target_part(0), target_name("") {};
 };
 
 /**
