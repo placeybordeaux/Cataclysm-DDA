@@ -18,7 +18,7 @@ struct component
  int count;
  int available; // -1 means the player doesn't have the item, 1 means they do,
             // 0 means they have item but not enough for both tool and component
- component() { type = "null"; count = 0; available = -1;}
+ component() type("null"), count(0), available(-1) {}
  component(itype_id TYPE, int COUNT) : type (TYPE), count (COUNT), available(-1) {}
 };
 
@@ -57,16 +57,9 @@ struct recipe {
       return skills_as_stream.str();
   }
 
-  recipe() {
-    id = 0;
-    result = "null";
-    skill_used = NULL;
-    difficulty = 0;
-    time = 0;
-    reversible = false;
-    autolearn = false;
-    learn_by_disassembly = false;
-  }
+  recipe() :
+    id(0), result("null"), skill_used(NULL), difficulty(0), time(0), 
+    reversible(false), autolearn(false), learn_by_disassembly(false) {}
 
 recipe(std::string pident, int pid, itype_id pres, craft_cat pcat, std::string &to_use,
        std::map<std::string,int> &to_require, int pdiff, int ptime, bool preversible, bool pautolearn,
