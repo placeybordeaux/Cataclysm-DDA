@@ -183,33 +183,33 @@ struct mission {
  int npc_id;		// ID of a related npc
  int good_fac_id, bad_fac_id;	// IDs of the protagonist/antagonist factions
  int step;		// How much have we completed?
- mission_id follow_up = NULL;	// What mission do we get after this succeeds?
+ mission_id follow_up;	// What mission do we get after this succeeds?
 
  std::string name();
  std::string save_info();
  void load_info(game *g, std::ifstream &info);
 
- mission()
- {
-  type = NULL;
-  description = "";
-  failed = false;
-  value = 0;
-  uid = -1;
-  target = point(-1, -1);
-  item_id = "null";
-  target_id = ot_null;
-  recruit_class = NC_NONE;
-  recruit_npc_id = -1;
-  monster_type = mon_null;
-  monster_kill_goal = -1;
-  count = 0;
-  deadline = 0;
-  npc_id = -1;
-  good_fac_id = -1;
-  bad_fac_id = -1;
-  step = 0;
- }
+ mission() :
+  type(NULL),
+  description(""),
+  failed(false),
+  value(0),
+  uid(-1),
+  target(point(-1, -1)),
+  item_id("null"),
+  target_id(ot_null),
+  recruit_class(NC_NONE),
+  recruit_npc_id(-1),
+  monster_type(mon_null),
+  monster_kill_goal(-1),
+  count(0),
+  deadline(0),
+  npc_id(-1),
+  good_fac_id(-1),
+  bad_fac_id(-1),
+  step(0),
+  follow_up(NULL)
+  {}
 };
 
 #endif
