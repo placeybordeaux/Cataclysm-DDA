@@ -26,12 +26,8 @@ struct iteminfo{
   bool bNewLine; //New line at the end
   bool bLowerIsBetter; //Lower values are better (red <-> green)
 
-  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) {
-    sType = sIn0;
-    sName = sIn1;
-    sFmt = sIn2;
-    is_int = bIn0;
-    dValue = dIn0;
+  iteminfo(std::string sIn0, std::string sIn1, std::string sIn2 = "", double dIn0 = -999, bool bIn0 = true, std::string sIn3 = "", bool bIn1 = true, bool bIn2 = false) :  sType(sIn0), sName(sIn1), sFmt(sIn2), is_int(bIn0), dValue(dIn0), sPlus(sIn3), bNewLine(bIn1), bLowerIsBetter(bIn2)
+   {
     std::stringstream convert;
     if (bIn0 == true) {
     int dIn0i = int(dIn0);
@@ -41,9 +37,6 @@ struct iteminfo{
     convert << std::fixed << dIn0;
     }
     sValue = convert.str();
-    sPlus = sIn3;
-    bNewLine = bIn1;
-    bLowerIsBetter = bIn2;
   }
 };
 
@@ -237,16 +230,14 @@ class map_item_stack
         int totalcount;
 
         //only expected to be used for things like lists and vectors
-        map_item_stack() {
-            example = item();
-            vIG.push_back(item_group());
-            totalcount = 0;
+        map_item_stack() : example(item()), totalcount(0)
+        {
+         vIG.push_back(item_group());
         }
 
-        map_item_stack(const item it, const int arg_x, const int arg_y) {
-            example = it;
+        map_item_stack(const item it, const int arg_x, const int arg_y) : example(it), totalcount(1)
+        {
             vIG.push_back(item_group(arg_x, arg_y, 1));
-            totalcount = 1;
         }
 
         ~map_item_stack() {};
