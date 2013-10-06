@@ -7702,7 +7702,6 @@ void game::pickup(int posx, int posy, int min)
  bool offered_swap = false;
  std::map<std::string, int> mapPickup;
  for (int i = 0; i < here.size(); i++) {
-  iter = 0;
   // This while loop guarantees the inventory letter won't be a repeat. If it
   // tries all 52 letters, it fails and we don't pick it up.
   if (getitem[i] && here[i].made_of(LIQUID))
