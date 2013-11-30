@@ -2760,15 +2760,13 @@ void vehicle::gain_moves (int mp)
                 g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN) {
             parts[p].blood--;
         }
-        int p_eng = part_with_feature (p, "ENGINE", false);
-        if (p_eng < 0 || parts[p_eng].hp > 0 || parts[p_eng].amount < 1) {
-            continue;
-        }
-        parts[p_eng].amount--;
-        for (int ix = -1; ix <= 1; ix++) {
-            for (int iy = -1; iy <= 1; iy++) {
-                if (!rng(0, 2)) {
-                    g->m.add_field(g, part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
+        if (part_flag(p, "ENGINE") && parts[p].hp > 0 &&  parts[p].amount > 0){
+            parts[p].amount--;
+            for (int ix = -1; ix <= 1; ix++) {
+                for (int iy = -1; iy <= 1; iy++) {
+                    if (!rng(0, 2)) {
+                        g->m.add_field(g, part_x + ix, part_y + iy, fd_smoke, rng(2, 4));
+                    }
                 }
             }
         }
